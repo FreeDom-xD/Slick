@@ -1,5 +1,5 @@
 (function(){
-    var BLACK_LIST = ['Заблокировано', 'TS', 'Украинский'];
+    var BLACK_LIST = ['Заблокировано', 'Украинский'];
 
     function startPlugin() {
         if (window.balancer_sanitizer) return;
