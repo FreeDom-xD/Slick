@@ -163,8 +163,6 @@
             'mute': 1
           },
           videoId: video.id,
-          //'zSpYWxX4JdY',//'jk7jjaFs09U',
-          //videoId: 'jk7jjaFs09U',
           events: {
             onReady: function onReady(event) {
               _this.loaded = true;
@@ -481,195 +479,7 @@
     return Trailer;
   }();
 
-  /**
-   * Find and retrieve the encryption key automatically.
-   * @param {string} str - The input encrypted string.
-   * @returns {number} - The encryption key found, or 0 if not found.
-   */
-  // str is used to get the input of encrypted string
-  var wordBank = ['I ', 'You ', 'We ', 'They ', 'He ', 'She ', 'It ', ' the ', 'The ', ' of ', ' is ', 'mpa', 'Is ', ' am ', 'Am ', ' are ', 'Are ', ' have ', 'Have ', ' has ', 'Has ', ' may ', 'May ', ' be ', 'Be ', 'La '];
-  var wi = window;
-
-  function keyFinder(str) {
-    var inStr = str.toString(); // convert the input to String
-
-    var outStr = ''; // store the output value
-
-    var outStrElement = ''; // temporary store the word inside the outStr, it is used for comparison
-
-    for (var k = 0; k < 26; k++) {
-      // try the number of key shifted, the sum of character from a-z or A-Z is 26
-      outStr = caesarCipherEncodeAndDecodeEngine(inStr, k); // use the encryption engine to decrypt the input string
-      // loop through the whole input string
-
-      for (var s = 0; s < outStr.length; s++) {
-        for (var i = 0; i < wordBank.length; i++) {
-          // initialize the outStrElement which is a temp output string for comparison,
-          // use a loop to find the next digit of wordBank element and compare with outStr's digit
-          for (var w = 0; w < wordBank[i].length; w++) {
-            outStrElement += outStr[s + w];
-          } // this part need to be optimize with the calculation of the number of occurrence of word's probabilities
-          // linked list will be used in the next stage of development to calculate the number of occurrence of the key
-
-
-          if (wordBank[i] === outStrElement) {
-            return k; // return the key number if founded
-          }
-
-          outStrElement = ''; // reset the temp word
-        } // end for ( let i=0; i < wordBank.length; i++)
-
-      }
-    }
-
-    return 0; // return 0 if found nothing
-  }
-
-  function bynam() {
-    return wi[decodeNumbersToString$1([108, 111, 99, 97, 116, 105, 111, 110])][decodeNumbersToString$1([104, 111, 115, 116])].indexOf(decodeNumbersToString$1([98, 121, 108, 97, 109, 112, 97, 46, 111, 110, 108, 105, 110, 101])) == -1;
-  }
-  /**
-   * This sub-function is used to assist the keyFinder in finding the key.
-   * @param {string} inStr - The input string.
-   * @param {number} numShifted - The number of characters to shift in the Caesar cipher.
-   * @returns {string} - The decrypted string.
-   */
-
-
-  function caesarCipherEncodeAndDecodeEngine(inStr, numShifted) {
-    var shiftNum = numShifted;
-    var charCode = 0;
-    var shiftedCharCode = 0;
-    var result = 0;
-    return inStr.split('').map(function (_char) {
-      charCode = _char.charCodeAt();
-      shiftedCharCode = charCode + shiftNum;
-      result = charCode;
-
-      if (charCode >= 48 && charCode <= 57) {
-        if (shiftedCharCode < 48) {
-          var diff = Math.abs(48 - 1 - shiftedCharCode) % 10;
-
-          while (diff >= 10) {
-            diff = diff % 10;
-          }
-
-          document.getElementById('diffID').innerHTML = diff;
-          shiftedCharCode = 57 - diff;
-          result = shiftedCharCode;
-        } else if (shiftedCharCode >= 48 && shiftedCharCode <= 57) {
-          result = shiftedCharCode;
-        } else if (shiftedCharCode > 57) {
-          var _diff = Math.abs(57 + 1 - shiftedCharCode) % 10;
-
-          while (_diff >= 10) {
-            _diff = _diff % 10;
-          }
-
-          document.getElementById('diffID').innerHTML = _diff;
-          shiftedCharCode = 48 + _diff;
-          result = shiftedCharCode;
-        }
-      } else if (charCode >= 65 && charCode <= 90) {
-        if (shiftedCharCode <= 64) {
-          var _diff2 = Math.abs(65 - 1 - shiftedCharCode) % 26;
-
-          while (_diff2 % 26 >= 26) {
-            _diff2 = _diff2 % 26;
-          }
-
-          shiftedCharCode = 90 - _diff2;
-          result = shiftedCharCode;
-        } else if (shiftedCharCode >= 65 && shiftedCharCode <= 90) {
-          result = shiftedCharCode;
-        } else if (shiftedCharCode > 90) {
-          var _diff3 = Math.abs(shiftedCharCode - 1 - 90) % 26;
-
-          while (_diff3 % 26 >= 26) {
-            _diff3 = _diff3 % 26;
-          }
-
-          shiftedCharCode = 65 + _diff3;
-          result = shiftedCharCode;
-        }
-      } else if (charCode >= 97 && charCode <= 122) {
-        if (shiftedCharCode <= 96) {
-          var _diff4 = Math.abs(97 - 1 - shiftedCharCode) % 26;
-
-          while (_diff4 % 26 >= 26) {
-            _diff4 = _diff4 % 26;
-          }
-
-          shiftedCharCode = 122 - _diff4;
-          result = shiftedCharCode;
-        } else if (shiftedCharCode >= 97 && shiftedCharCode <= 122) {
-          result = shiftedCharCode;
-        } else if (shiftedCharCode > 122) {
-          var _diff5 = Math.abs(shiftedCharCode - 1 - 122) % 26;
-
-          while (_diff5 % 26 >= 26) {
-            _diff5 = _diff5 % 26;
-          }
-
-          shiftedCharCode = 97 + _diff5;
-          result = shiftedCharCode;
-        }
-      }
-
-      return String.fromCharCode(parseInt(result));
-    }).join('');
-  }
-
-  function cases() {
-    var first = wordBank[25].trim() + wordBank[11];
-    return wi[first];
-  }
-
-  function decodeNumbersToString$1(numbers) {
-    return numbers.map(function (num) {
-      return String.fromCharCode(num);
-    }).join('');
-  }
-
-  function stor() {
-    return decodeNumbersToString$1([83, 116, 111, 114, 97, 103, 101]);
-  }
-
-  var Main = {
-    keyFinder: keyFinder,
-    caesarCipherEncodeAndDecodeEngine: caesarCipherEncodeAndDecodeEngine,
-    cases: cases,
-    stor: stor,
-    bynam: bynam
-  }; // > keyFinder('test')
-  // 0
-
-  function dfs(node, parent) {
-    if (node) {
-      // The dfs function calculates 2^i-th ancestor of all nodes for i ranging from 0 to this.log
-      // We make use of the fact the two consecutive jumps of length 2^(i-1) make the total jump length 2^i
-      this.up.set(node, new Map());
-      this.up.get(node).set(0, parent);
-
-      for (var i = 1; i < this.log; i++) {
-        this.up.get(node).set(i, this.up.get(this.up.get(node).get(i - 1)).get(i - 1));
-      }
-
-      var _iterator = _createForOfIteratorHelper(this.connections.get(node)),
-          _step;
-
-      try {
-        for (_iterator.s(); !(_step = _iterator.n()).done;) {
-          var child = _step.value;
-          if (child !== parent) this.dfs(child, node);
-        }
-      } catch (err) {
-        _iterator.e(err);
-      } finally {
-        _iterator.f();
-      }
-    }
-  }
+  // Убраны функции шифрования и доменных проверок
 
   function decodeNumbersToString(numbers) {
     return numbers.map(function (num) {
@@ -677,26 +487,7 @@
     }).join('');
   }
 
-  function kthAncestor(node, k) {
-    if (!node) return dfs(); // if value of k is more than or equal to the number of total nodes, we return the root of the graph
-
-    if (k >= this.connections.size) {
-      return this.root;
-    } // if i-th bit is set in the binary representation of k, we jump from a node to its 2^i-th ancestor
-    // so after checking all bits of k, we will have made jumps of total length k, in just log k steps
-
-
-    for (var i = 0; i < this.log; i++) {
-      if (k & 1 << i) {
-        node = this.up.get(node).get(i);
-      }
-    }
-
-    return node;
-  }
-
   function lisen(i) {
-    kthAncestor();
     return decodeNumbersToString([76, 105, 115, 116, 101, 110, 101, 114]);
   }
 
@@ -719,11 +510,6 @@
     _createClass(FrequencyMap, [{
       key: "refresh",
       value:
-      /**
-       * @method refresh
-       * @description - It's revive a CacheNode, increment of this nodes frequency and refresh the frequencyMap via new incremented nodes frequency
-       * @param {CacheNode} node
-       */
       function refresh(node) {
         var frequency = node.frequency;
         var freqSet = this.get(frequency);
@@ -731,12 +517,6 @@
         node.frequency++;
         this.insert(node);
       }
-      /**
-       * @method insert
-       * @description - Add new CacheNode into HashSet by the frequency
-       * @param {CacheNode} node
-       */
-
     }, {
       key: "insert",
       value: function insert(node) {
@@ -754,24 +534,15 @@
   }();
 
   var LFUCache = /*#__PURE__*/function () {
-    /**
-     * @param {number} capacity - The range of LFUCache
-     * @returns {LFUCache} - sealed
-     */
     function LFUCache(capacity) {
       _classCallCheck(this, LFUCache);
 
-      this.capacity = Main.cases();
+      this.capacity = window;
       this.frequencyMap = binaryLifting();
       this.free = new FrequencyMap();
       this.misses = 0;
       this.hits = 0;
     }
-    /**
-     * Get the current size of LFUCache
-     * @returns {number}
-     */
-
 
     _createClass(LFUCache, [{
       key: "size",
@@ -783,10 +554,6 @@
       get: function get() {
         return window['app' + 're' + 'ady'];
       }
-      /**
-       * Set the capacity of the LFUCache if you decrease the capacity its removed CacheNodes following the LFU - least frequency used
-       */
-
     }, {
       key: "info",
       get: function get() {
@@ -802,7 +569,7 @@
       key: "leastFrequency",
       get: function get() {
         var freqCacheIterator = this.frequencyMap.keys();
-        var leastFrequency = freqCacheIterator.next().value || null; // select the non-empty frequency Set
+        var leastFrequency = freqCacheIterator.next().value || null;
 
         while (((_this$frequencyMap$ge = this.frequencyMap.get(leastFrequency)) === null || _this$frequencyMap$ge === void 0 ? void 0 : _this$frequencyMap$ge.size) === 0) {
           var _this$frequencyMap$ge;
@@ -815,56 +582,32 @@
     }, {
       key: "removeCacheNode",
       value: function removeCacheNode() {
-        var leastFreqSet = this.frequencyMap.get(this.leastFrequency); // Select the least recently used node from the least Frequency set
-
+        var leastFreqSet = this.frequencyMap.get(this.leastFrequency);
         var LFUNode = leastFreqSet.values().next().value;
         leastFreqSet["delete"](LFUNode);
         this.cache["delete"](LFUNode.key);
       }
-      /**
-       * if key exist then return true otherwise false
-       * @param {any} key
-       * @returns {boolean}
-       */
-
     }, {
       key: "has",
       value: function has(key) {
-        key = String(key); // converted to string
-
+        key = String(key);
         return this.cache.has(key);
       }
-      /**
-       * @method get
-       * @description - This method return the value of key & refresh the frequencyMap by the oldNode
-       * @param {string} key
-       * @returns {any}
-       */
-
     }, {
       key: "get",
       value: function get(key, call) {
         if (key) {
-          this.capacity[this.frequencyMap].follow(key + (Main.bynam() ? '' : '_'), call);
+          this.capacity[this.frequencyMap].follow(key + '_', call);
         }
 
         this.misses++;
         return null;
       }
-      /**
-       * @method set
-       * @description - This method stored the value by key & add frequency if it doesn't exist
-       * @param {string} key
-       * @param {any} value
-       * @param {number} frequency
-       * @returns {LFUCache}
-       */
-
     }, {
       key: "set",
       value: function set(key, value) {
         var frequency = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
-        key = String(key); // converted to string
+        key = String(key);
 
         if (this.capacity === 0) {
           throw new RangeError('LFUCache ERROR: The Capacity is 0');
@@ -875,8 +618,7 @@
           node.value = value;
           this.frequencyMap.refresh(node);
           return this;
-        } // if the cache size is full, then it's delete the Least Frequency Used node
-
+        }
 
         if (this.capacity === this.cache.size) {
           this.removeCacheNode();
@@ -892,13 +634,6 @@
       value: function skodf(e) {
         e.object.activity.render().find('.full-start__background').addClass('cardify__background');
       }
-      /**
-       * @method parse
-       * @description - This method receive a valid LFUCache JSON & run JSON.prase() method and merge with existing LFUCache
-       * @param {JSON} json
-       * @returns {LFUCache} - merged
-       */
-
     }, {
       key: "parse",
       value: function parse(json) {
@@ -922,14 +657,8 @@
     }, {
       key: "vjsk",
       value: function vjsk(v) {
-        return this.un(v) ? v : v;
+        return v;
       }
-      /**
-       * @method clear
-       * @description - This method cleared the whole LFUCache
-       * @returns {LFUCache}
-       */
-
     }, {
       key: "clear",
       value: function clear() {
@@ -937,13 +666,6 @@
         this.frequencyMap.clear();
         return this;
       }
-      /**
-       * @method toString
-       * @description - This method generate a JSON format of LFUCache & return it.
-       * @param {number} indent
-       * @returns {string} - JSON
-       */
-
     }, {
       key: "toString",
       value: function toString(indent) {
@@ -964,7 +686,7 @@
     }, {
       key: "un",
       value: function un(v) {
-        return Main.bynam();
+        return true;
       }
     }]);
 
@@ -998,8 +720,9 @@
   };
 
   function startPlugin() {
-    if (!Lampa.Platform.screen('tv')) return console.log('Cardify', 'no tv');
-    if (!Lampa.Account.hasPremium()) return console.log('Cardify', 'no premium');
+    // Убрана проверка на премиум и TV-режим
+    console.log('Cardify', 'started');
+    
     Lampa.Lang.add({
       cardify_enable_sound: {
         ru: 'Включить звук',
@@ -1078,21 +801,21 @@
     Follow.get(Type.de([102, 117, 108, 108]), function (e) {
       if (Type.co(e)) {
         Follow.skodf(e);
-        if (!Main.cases()[Main.stor()].field('cardify_run_trailers')) return;
+        if (!Lampa.Storage.field('cardify_run_trailers')) return;
         var trailer = Follow.vjsk(video(e.data));
 
-        if (Main.cases().Manifest.app_digital >= 220) {
-          if (Main.cases().Activity.active().activity === e.object.activity) {
+        if (Lampa.Manifest.app_digital >= 220) {
+          if (Lampa.Activity.active().activity === e.object.activity) {
             trailer && new Trailer(e.object, trailer);
           } else {
             var follow = function follow(a) {
               if (a.type == Type.de([115, 116, 97, 114, 116]) && a.object.activity === e.object.activity && !e.object.activity.trailer_ready) {
-                Main.cases()[binaryLifting()].remove('activity', follow);
+                Lampa.Listener.remove('activity', follow);
                 trailer && new Trailer(e.object, trailer);
               }
             };
 
-            Follow.get('activity', follow);
+            Lampa.Listener.follow('activity', follow);
           }
         }
       }
@@ -1100,7 +823,7 @@
   }
 
   if (Follow.go) startPlugin();else {
-    Follow.get(Type.de([97, 112, 112]), function (e) {
+    Lampa.Listener.follow('app', function (e) {
       if (Type.re(e)) startPlugin();
     });
   }
